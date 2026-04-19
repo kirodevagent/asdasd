@@ -75,17 +75,8 @@ app.all('/webhook', async (req, res) => {
     // Отправляем в Telegram
     await sendToTelegram(message);
     
-    // Сохраняем в файл (для логов)
-    const fs = require('fs');
-    const logFile = `./logs/${timestamp.replace(/:/g, '-')}.json`;
-    try {
-        if (!fs.existsSync('./logs')) {
-            fs.mkdirSync('./logs');
-        }
-        fs.writeFileSync(logFile, JSON.stringify(data, null, 2));
-    } catch (err) {
-        console.error('Ошибка записи в файл:', err);
-    }
+    // Логируем в консоль (Railway сохранит автоматически)
+    console.log('📝 Full data:', JSON.stringify(data, null, 2));
     
     // Отвечаем успехом
     res.status(200).json({
